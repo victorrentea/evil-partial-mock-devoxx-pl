@@ -19,18 +19,19 @@ public class OrderServiceTest {
 	@Mock
 	private OrderRepository orderRepo;
 	
+	private Order order = new Order();
+
 	@Test
 	public void placeOrder_peristsTheOrder() {
-		Order order = new Order();
 		service.placeOrder(order);
 		verify(orderRepo).save(order);
 	}
 	
 	@Test
 	public void placeOrder_returnsConfirmationNumber() {
-		Order order = new Order();
 		String confirmation = service.placeOrder(order);
 		assertEquals(confirmation, order.getConfirmationNumber());
 		assertNotNull(confirmation);
 	}
+	
 }
