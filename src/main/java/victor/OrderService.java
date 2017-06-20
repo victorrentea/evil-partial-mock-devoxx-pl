@@ -15,6 +15,7 @@ public class OrderService {
 		repo.save(order);
 		Email email = new Email();
 		email.setSubject("Order Received");
+		email.setBody("Thank you, " + order.getCustomerName().toUpperCase());
 		emailSender.send(email);
 		return confirmationNumber;
 	}

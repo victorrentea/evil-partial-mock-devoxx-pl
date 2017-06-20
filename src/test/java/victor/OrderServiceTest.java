@@ -40,10 +40,12 @@ public class OrderServiceTest {
 	
 	@Test
 	public void placeOrder_sendsConfirmationEmail() {
+		order.setCustomerName("Victor");
 		service.placeOrder(order);
 		ArgumentCaptor<Email> email = ArgumentCaptor.forClass(Email.class);
 		verify(emailSender).send(email.capture());
 		assertEquals("Order Received", email.getValue().getSubject());
+		assertEquals("Thank you, VICTOR", email.getValue().getBody());
 	}
 
 	
