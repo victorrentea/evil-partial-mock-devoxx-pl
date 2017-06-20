@@ -3,26 +3,31 @@ package victor;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
+@RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+	@InjectMocks
+	private OrderService service;
+	
+	@Mock
+	private OrderRepository orderRepo;
+	
 	@Test
 	public void canPlaceAnOrder() {
-		OrderService service = new OrderService();
 		Order order = new Order();
-		service.setOrderRepository(Mockito.mock(OrderRepository.class));
 		service.placeOrder(order);
 	}
 
 	@Test
 	public void placeOrder_peristsTheOrder() {
-		OrderService service = new OrderService();
-		OrderRepository repoMock = Mockito.mock(OrderRepository.class);
-		service.setOrderRepository(repoMock);
 		Order order = new Order();
 		service.placeOrder(order);
-		verify(repoMock).save(order);
+		verify(orderRepo).save(order);
 		
 	}
 }
