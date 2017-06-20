@@ -1,6 +1,6 @@
 package victor;
 
-public interface EmailSender {
+public interface EmailClient {
 
 	void send(Email email);
 
