@@ -7,10 +7,15 @@ public class OrderService {
 	// @Inject/@Autowire
 	private OrderRepository repo;
 
+	private EmailSender emailSender;
+	
 	public String placeOrder(Order order) {
 		String confirmationNumber = UUID.randomUUID().toString();
 		order.setConfirmationNumber(confirmationNumber);
 		repo.save(order);
+		Email email = new Email();
+		email.setSubject("Order Received");
+		emailSender.send(email);
 		return confirmationNumber;
 	}
 

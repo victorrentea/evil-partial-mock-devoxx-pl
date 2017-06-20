@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -18,6 +19,9 @@ public class OrderServiceTest {
 	
 	@Mock
 	private OrderRepository orderRepo;
+
+	@Mock
+	private EmailSender emailSender;
 	
 	private Order order = new Order();
 
@@ -33,5 +37,14 @@ public class OrderServiceTest {
 		assertEquals(confirmation, order.getConfirmationNumber());
 		assertNotNull(confirmation);
 	}
+	
+	@Test
+	public void placeOrder_sendsConfirmationEmail() {
+		service.placeOrder(order);
+		ArgumentCaptor<Email> email = ArgumentCaptor.forClass(Email.class);
+		verify(emailSender).send(email.capture());
+		assertEquals("Order Received", email.getValue().getSubject());
+	}
+
 	
 }
