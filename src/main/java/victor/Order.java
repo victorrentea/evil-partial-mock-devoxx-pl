@@ -4,6 +4,7 @@ public class Order {
 
 	private String confirmationNumber;
 	private String customerName;
+	private boolean shipped;
 
 	public void setConfirmationNumber(String confirmationNumber) {
 		this.confirmationNumber = confirmationNumber;
@@ -19,6 +20,14 @@ public class Order {
 
 	public final void setCustomerName(String customerName) {
 		this.customerName = customerName;
+	}
+
+	public void setShipped() {
+		shipped = true;
+	}
+	
+	public boolean isShipped() {
+		return shipped;
 	}
 	
 }
