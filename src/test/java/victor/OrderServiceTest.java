@@ -1,5 +1,7 @@
 package victor;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
@@ -28,6 +30,13 @@ public class OrderServiceTest {
 		Order order = new Order();
 		service.placeOrder(order);
 		verify(orderRepo).save(order);
-		
+	}
+	
+	@Test
+	public void placeOrder_returnsConfirmationNumber() {
+		Order order = new Order();
+		String confirmation = service.placeOrder(order);
+		assertEquals(confirmation, order.getConfirmationNumber());
+		assertNotNull(confirmation);
 	}
 }
