@@ -2,18 +2,20 @@ package victor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+	@Spy
 	@InjectMocks
 	private OrderService service;
 	
@@ -21,18 +23,20 @@ public class OrderServiceTest {
 	private OrderRepository orderRepo;
 
 	@Mock
-	private EmailService emailService;
+	private EmailClient emailClient;
 	
 	private Order order = new Order();
 
 	@Test
 	public void placeOrder_peristsTheOrder() {
+		order.setCustomerName("Victor");
 		service.placeOrder(order);
 		verify(orderRepo).save(order);
 	}
 	
 	@Test
 	public void placeOrder_returnsConfirmationNumber() {
+		order.setCustomerName("Victor");
 		String confirmation = service.placeOrder(order);
 		assertEquals(confirmation, order.getConfirmationNumber());
 		assertNotNull(confirmation);
@@ -40,19 +44,18 @@ public class OrderServiceTest {
 	
 	@Test
 	public void placeOrder_sendsConfirmationEmail() {
+		order.setCustomerName("Victor");
 		service.placeOrder(order);
-		verify(emailService).sendEmail(order, "Order Received");
-		// Will move to an EmailServiceTest
-//		ArgumentCaptor<Email> email = ArgumentCaptor.forClass(Email.class);
-//		verify(emailService).sendEmail(email.capture());
-//		assertEquals("Order Received", email.getValue().getSubject());
-//		assertEquals("Thank you, VICTOR", email.getValue().getBody());
+		ArgumentCaptor<Email> email = ArgumentCaptor.forClass(Email.class);
+		verify(emailClient).send(email.capture());
+		assertEquals("Order Received", email.getValue().getSubject());
+		assertEquals("Thank you, VICTOR", email.getValue().getBody());
 	}
 	
 	@Test
 	public void shipOrder_ok() {
-		service.shipOrder(order);
-		assertTrue(order.isShipped());
-		verify(emailService).sendEmail(order, "Order Shipped");
+		// TODO assertions to force you to 
+		// uncomment the intended production code
+		// I call it "Reversed TDD" or "manual Mutation Testing" :)
 	}
 }
