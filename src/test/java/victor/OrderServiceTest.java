@@ -20,12 +20,6 @@ public class OrderServiceTest {
 	private OrderRepository orderRepo;
 	
 	@Test
-	public void canPlaceAnOrder() {
-		Order order = new Order();
-		service.placeOrder(order);
-	}
-
-	@Test
 	public void placeOrder_peristsTheOrder() {
 		Order order = new Order();
 		service.placeOrder(order);
