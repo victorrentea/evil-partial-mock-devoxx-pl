@@ -44,19 +44,12 @@ public class OrderServiceTest {
 	public void placeOrder_sendsConfirmationEmail() {
 		service.placeOrder(order);
 		verify(emailService).sendEmail(order, "Order Received");
-//		
-		//TODO vrentea: move to EmailServiceTest
-//		ArgumentCaptor<Email> email = ArgumentCaptor.forClass(Email.class);
-//		verify(emailClient).send(email.capture());
-//		assertEquals("Order Received", email.getValue().getSubject());
-//		assertEquals("Thank you, VICTOR", email.getValue().getBody());
 	}
 	
 	@Test
 	public void shipOrder_ok() {
 		service.shipOrder(order);
 		assertTrue(order.isShipped());
-		
 		verify(emailService).sendEmail(order, "Order Shipped");
 	}
 }

@@ -5,7 +5,6 @@ public class EmailService {
 	// @Inject/@Autowire
 	private EmailClient emailClient;
 	
-	
 	public void sendEmail(Order order, String subject) {
 		Email email = new Email();
 		email.setSubject(subject);
