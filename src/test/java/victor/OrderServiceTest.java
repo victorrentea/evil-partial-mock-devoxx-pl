@@ -2,6 +2,10 @@ package victor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.anyObject;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 
 import org.junit.Test;
@@ -9,11 +13,13 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
 public class OrderServiceTest {
 
+	@Spy
 	@InjectMocks
 	private OrderService service;
 	
@@ -52,8 +58,11 @@ public class OrderServiceTest {
 	
 	@Test
 	public void shipOrder_ok() {
-		// TODO assertions to force you to 
-		// uncomment the intended production code
-		// I call it "Reversed TDD" or "manual Mutation Testing" :)
+		doNothing().when(service).sendEmail(anyObject(), anyString());
+		
+		service.shipOrder(order);
+		assertTrue(order.isShipped());
+		
+		verify(service).sendEmail(order, "Order Shipped");
 	}
 }

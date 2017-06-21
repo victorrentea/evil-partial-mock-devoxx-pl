@@ -18,7 +18,7 @@ public class OrderService {
 		return confirmationNumber;
 	}
 
-	public void sendEmail(Order order, String subject) {
+	void sendEmail(Order order, String subject) {
 		Email email = new Email();
 		email.setSubject(subject);
 		email.setBody("Thank you, " + order.getCustomerName().toUpperCase());
@@ -26,8 +26,8 @@ public class OrderService {
 	}
 
 	public void shipOrder(Order order) {
-//		order.setShipped();
-//		sendEmail(order, "Order Shipped");
+		order.setShipped();
+		sendEmail(order, "Order Shipped");
 	}
 
 }
